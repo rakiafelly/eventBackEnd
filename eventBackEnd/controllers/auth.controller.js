@@ -27,6 +27,7 @@ exports.registre = async (req, res) => {
     }
 
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'erreur interne dans le serveur' })
 
 
