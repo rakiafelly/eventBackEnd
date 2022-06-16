@@ -20,5 +20,5 @@ app.use('/api/v1', tagApi);
 
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Event app listening on port ${port}`)
   })
