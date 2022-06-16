@@ -92,7 +92,7 @@ exports.forgetPassword = async (req, res) => {
       const render= ejs.render(forgetTemplate,{name:user.firstName,link:`http://localhost:4200/${createdToken.token}`})
       const info = await transporter.sendMail({
         from: ' event <sahbigara10@gmail.com>', // sender address
-        to: `aymenbouazra994@gmail.com`,
+        to: `fellyrakia14@gmail.com`,
         subject: "Password reset",
         html: render
       });
