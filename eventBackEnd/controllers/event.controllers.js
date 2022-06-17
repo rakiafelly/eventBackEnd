@@ -9,6 +9,7 @@ exports.getAllEvent = async (req, res, next) => {
 
     }
 }
+
 exports.getTagById = async (req, res, next) => {
     try {
         const event = await Event.findById(req.params.id);
@@ -19,6 +20,7 @@ exports.getTagById = async (req, res, next) => {
 
     }
 }
+
 exports.createEvent = async (req, res, next) => {
     try {
         const event = await Event.create(req.body);
@@ -30,27 +32,23 @@ exports.createEvent = async (req, res, next) => {
 
     }
 }
-    exports.updateEvent = async (req, res, next) => {
-        try {
-            const event = await Event.findByIdAndUpdate(req.params.id, req.body)
-            res.json({ message: 'updated succssefully' });
 
-
-        }
-        catch (err) {
-            res.status(500).json({ message: 'server error' })
-
-        }
+exports.updateEvent = async (req, res, next) => {
+    try {
+        const event = await Event.findByIdAndUpdate(req.params.id, req.body)
+        res.json({ message: 'updated succssefully' });
     }
-        exports.deleteEvent = async (req, res, next) => {
-            try {
-                const event = await Event.findByIdAndRemove(req.params.id);
-                res.json({ message: 'deleted succssefully' });
+    catch (err) {
+        res.status(500).json({ message: 'server error' })
+    }
+}
 
-            }
-            catch (err) {
-                res.status(500).json({ message: 'server error' })
-
-            }
-        }
-    
+exports.deleteEvent = async (req, res, next) => {
+    try {
+        const event = await Event.findByIdAndRemove(req.params.id);
+        res.json({ message: 'deleted succssefully' });
+    }
+    catch (err) {
+        res.status(500).json({ message: 'server error' })
+    }
+}

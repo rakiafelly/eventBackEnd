@@ -19,8 +19,15 @@ exports.getTagBYId = async (req, res, next) => {
 
 exports.createTag = async (req, res, next) => {
     try {
+        const tagFound=await Tag.findOne({title:req.body.title});
+        console.log(tagFound);
+        if(tagFound==null){
         const tag = await Tag.create(req.body);
         res.json({ message: 'created succssefully' });
+        }
+        else{
+            res.status(400).json({message:'Tag already exist'})
+        }
     } catch (err) {
         res.status(500).json({ message: 'server error' })
 
