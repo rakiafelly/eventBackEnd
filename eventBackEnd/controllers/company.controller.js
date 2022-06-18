@@ -25,9 +25,15 @@ catch(err){
 }
 
 exports.createCompany=async(req, res, next) => {
-try{    const company=await Company.create(req.body);
+try{
+    const companyFound=await Company.findOne({title:req.body.companyName});
+    if(companyFound==null){   
+     const company=await Company.create(req.body);
     res.json({ message: 'created succssefully' });
-
+    }
+    else{
+        res.status(400).json({message:'Company already exist'})
+    }
     }
 catch(err){
     res.status(500).json({ message: 'server error' })

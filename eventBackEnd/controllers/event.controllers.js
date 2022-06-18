@@ -23,9 +23,13 @@ exports.getTagById = async (req, res, next) => {
 
 exports.createEvent = async (req, res, next) => {
     try {
+        const eventFound=await Event.findOne({title:req.body.eventName});
+        if(eventFound==null){
         const event = await Event.create(req.body);
-        res.json({ message: 'created succssefully' });
-
+        res.json({ message: 'created succssefully' });}
+        else{
+            res.status(400).json({message:'Event already exist'})
+        }
     }
     catch (err) {
         res.status(500).json({ message: 'server error' })
