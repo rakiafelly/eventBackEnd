@@ -10,11 +10,11 @@ const eventSchema = new Schema({
          required: [true, 'Description is required'],
     },
     startDate: {
-        type: String,
+        type: Date,
         required: [true, 'The start date is required'],
     },
     endDate: {
-        type: String,
+        type: Date,
         required: [true, 'the end date is required'],
     },
     startTime: {
@@ -28,14 +28,14 @@ const eventSchema = new Schema({
     },
     photo: {
         type: String,
-         required: [false, 'Photo is required'],
+         required: [false, 'Photo is not required'],
     },
     price: {
-        type: String,
+        type: Number,
          required: [true, 'Price is required'],
     },
     availableTicketNumber: {
-        type: String,
+        type: Number,
          required: [true, 'Number of ticket is required'],
     },
     eventType: {

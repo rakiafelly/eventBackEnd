@@ -19,12 +19,12 @@ const companySchema = new Schema({
     },
     role: {
         type: String,
-        required: [true, 'Role fiels is required'],
         default:'Admin',
     },
     photo: {
         type: String,
-        required: [false, 'photo fiels is required'],
+        required: [false, 'photo fiels is not required'],
+        default:'https://imgur.com/a/NZPQy90',
     }
 })
 const Company= mongoose.model('company',companySchema);
