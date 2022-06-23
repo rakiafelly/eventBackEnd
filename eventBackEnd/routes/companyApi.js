@@ -9,7 +9,7 @@ router.get('/company/:id',getCompanyById)
 router.post('/company',imgUpload.single('photo'),createCompany);
 
 //update
-router.put('/company/:id',updateCompany)
+router.put('/company/:id',imgUpload.single('photo'),updateCompany)
 
 //delete
 router.delete('/company/:id',deleteCompany)

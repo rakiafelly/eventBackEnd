@@ -1,4 +1,36 @@
+const express = require('express');
 const Event = require('../models/event');
+const router = express.Router();
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        const folder = path.resolve('./uploads');
+        cb(null, folder);
+    },
+    filename: function (req, file, cb) {
+        const extension = path.extname(file.originalname);
+        const newFileName = Date.now() + extension;
+        const link='http://localhost:3000/uploads/'+newFileName;
+        req.body.photo=link;
+        cb(null, newFileName)
+    }
+})
+
+const fileFilter = (req, file, cb) => {
+    const allowedFileExtensions = ['.png', '.jpeg', '.jpg']
+    const extension = path.extname(file.originalname);
+    cb(null, allowedFileExtensions.includes(extension));
+}
+exports.imgUpload =multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: {
+        fileSize: 52428800,
+    },
+});
+
 exports.getAllEvent = async (req, res, next) => {
     try {
         const event = await Event.find()
@@ -23,15 +55,17 @@ exports.getTagById = async (req, res, next) => {
 
 exports.createEvent = async (req, res, next) => {
     try {
-        const eventFound=await Event.findOne({eventName:req.body.eventName});
-        if(eventFound==null){
-        await Event.create(req.body);
-        res.json({ message: 'created succssefully' });}
-        else{
-            res.status(400).json({message:'Event already exist'})
+        const eventFound = await Event.findOne({ eventName: req.body.eventName });
+        if (eventFound == null) {
+            await Event.create(req.body);
+            res.json({ message: ' Event created succssefully' });
+        }
+        else {
+            res.status(400).json({ message: 'Event already exist' })
         }
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({ message: 'server error' })
 
     }
@@ -43,6 +77,7 @@ exports.updateEvent = async (req, res, next) => {
         res.json({ message: 'updated succssefully' });
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({ message: 'server error' })
     }
 }

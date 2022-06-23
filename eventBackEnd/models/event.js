@@ -10,11 +10,11 @@ const eventSchema = new Schema({
          required: [true, 'Description is required'],
     },
     startDate: {
-        type: Date,
+        type: String,
         required: [true, 'The start date is required'],
     },
     endDate: {
-        type: Date,
+        type: String,
         required: [true, 'the end date is required'],
     },
     startTime: {
@@ -29,6 +29,8 @@ const eventSchema = new Schema({
     photo: {
         type: String,
          required: [false, 'Photo is not required'],
+         default:'https://imgur.com/a/NZPQy90',
+
     },
     price: {
         type: Number,
