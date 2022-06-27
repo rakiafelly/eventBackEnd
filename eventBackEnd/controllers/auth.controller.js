@@ -82,7 +82,7 @@ exports.forgetPassword = async (req, res) => {
       });
       const templatePath = path.resolve('./templates', 'forgetPassword.html');
       const forgetTemplate = fs.readFileSync(templatePath, { encoding: 'utf-8' })
-      const render = ejs.render(forgetTemplate, { name: user.firstName, link: `http://localhost:4200/#/reset-password/${createdToken.token}` })
+      const render = ejs.render(forgetTemplate, { name: user.companyName, link: `http://localhost:4200/#/reset-password/${createdToken.token}` })
       const info = await transporter.sendMail({
         from: ' event <sahbigara10@gmail.com>', // sender address
         to: req.body.email,
