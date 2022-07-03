@@ -13,10 +13,13 @@ const authApi=require('./routes/authApi');
 const companyApi=require('./routes/companyApi');
 const eventApi=require('./routes/eventApi');
 const tagApi=require('./routes/tagApi');
+const reservationApi=require('./routes/reservationApi');
+
 app.use('/api/v1', authApi);
 app.use('/api/v1', companyApi);
 app.use('/api/v1', eventApi);
 app.use('/api/v1', tagApi);
+app.use('/api/v1',reservationApi);
 
 
 app.listen(port, () => {

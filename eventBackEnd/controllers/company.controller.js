@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
         const extension = path.extname(file.originalname);
         const newFileName = Date.now() + extension;
         const link='http://localhost:3000/uploads/'+newFileName;
-        req.body.photo=link;
+    
         cb(null, newFileName)
     }
 })

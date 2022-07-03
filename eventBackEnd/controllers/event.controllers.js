@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
         const extension = path.extname(file.originalname);
         const newFileName = Date.now() + extension;
         const link='http://localhost:3000/uploads/'+newFileName;
-        req.body.photo=link;
         cb(null, newFileName)
     }
 })
@@ -57,6 +56,7 @@ exports.createEvent = async (req, res, next) => {
     try {
         const eventFound = await Event.findOne({ eventName: req.body.eventName });
         if (eventFound == null) {
+            req.body.photo = req.body.photo
             await Event.create(req.body);
             res.json({ message: ' Event created succssefully' });
         }

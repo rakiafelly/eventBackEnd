@@ -48,6 +48,12 @@ const eventSchema = new Schema({
         type: String,
          required: [true, 'location is required'],
     },
+    tags:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"tag"
+        }
+    ]
 })
 const Event= mongoose.model('event',eventSchema);
 module.exports=Event;

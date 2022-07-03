@@ -25,7 +25,13 @@ const companySchema = new Schema({
         type: String,
         required: [false, 'photo fiels is not required'],
         default:'https://imgur.com/a/NZPQy90',
-    }
+    },
+    events:[
+        {
+            type:Schema.Types.ObjectId,
+            ref:"event"
+        }
+    ]
 })
 const Company= mongoose.model('company',companySchema);
 module.exports=Company;
