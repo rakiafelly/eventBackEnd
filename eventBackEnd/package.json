@@ -23,6 +23,7 @@
     "passport": "^0.6.0",
     "passport-http-bearer": "^1.0.1",
     "path": "^0.12.7",
+    "pdf-creator-node": "^2.3.4",
     "rand-token": "^1.0.1",
     "randomstring": "^1.2.2"
   }

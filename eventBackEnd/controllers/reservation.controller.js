@@ -20,17 +20,23 @@ exports.createReservation = async (req, res, next) => {
         });
         const templatePath = path.resolve('./templates', 'reservation.html');
         const reservationTemplate = fs.readFileSync(templatePath, { encoding: 'utf-8' })
-        const render = ejs.render(reservationTemplate, { link: `http://localhost:4200/#/reservation` })
+        const render = ejs.render(reservationTemplate, {firstName:req.body.firstName, lastName:req.body.lastName,email:req.body.email })
         const info = await transporter.sendMail({
           from: ' event <sahbigara10@gmail.com>', // sender address
           to: req.body.email,
           subject: "Reservation",
-          html: render
+          html: render,
+          attachments: [
+            {   
+                filename: 'reservation.html',
+                content: 'content reservation.html'
+            },]
         });
         res.status(200).json({ message: 'Successfully reservation' })
       }
       
      catch (err) {
+      console.log(err);
         res.status(500).json({ message: 'server error' })
     }
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors=require('cors');
 const app = express();
+const passport=require('./passport/passport')
 const port = 3000;
 const dotenv=require('dotenv');
 dotenv.config({ debug: process.env.DEBUG });

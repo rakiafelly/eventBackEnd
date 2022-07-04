@@ -1,15 +1,16 @@
 const express = require('express');
 const {getAllEvent,getTagById,createEvent,updateEvent,deleteEvent, imgUpload} = require('../controllers/event.controllers');
 const router = express.Router();
+const passport=require('passport')
 //import Schema
-router.get('/event',getAllEvent);
+router.get('/event',passport.authenticate('bearer', { session: false }),getAllEvent);
 
-router.get('/event/:id',getTagById)
+router.get('/event/:id',passport.authenticate('bearer', { session: false }),getTagById)
 //add
-router.post('/event',imgUpload.single('photo'),createEvent);
+router.post('/event',[imgUpload.single('photo'),passport.authenticate('bearer', { session: false })],createEvent);
 //update
-router.put('/event/:id',imgUpload.single('photo'),updateEvent);
+router.put('/event/:id',[imgUpload.single('photo'),passport.authenticate('bearer', { session: false })],updateEvent);
 //delete
-router.delete('/event/:id',deleteEvent)
+router.delete('/event/:id',passport.authenticate('bearer', { session: false }),deleteEvent)
 
 module.exports = router;

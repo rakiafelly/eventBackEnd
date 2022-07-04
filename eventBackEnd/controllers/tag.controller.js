@@ -2,8 +2,10 @@ const Tag = require('../models/tag');
 exports.getAllTAgs = async (req, res, next) => {
     try {
         const tag = await Tag.find()
+        // console.log(req.user);
         res.json(tag)
     } catch (err) {
+        console.log(err);
         res.status(500).json({ message: 'server error' })
     }
 }

@@ -7,6 +7,8 @@ const path = require('path');
 const ejs = require('ejs');
 const fs = require('fs');
 const randomString = require('randomstring');
+const passport = require('passport');
+
 
 exports.registre = async (req, res) => {
   try {
