@@ -35,10 +35,12 @@ exports.imgUpload =multer({
 
 exports.getAllCompany = async (req, res, next) => {
     try {
+        //  console.log(req.user);
         const company = await Company.find();
         res.send(company);
     }
     catch (err) {
+        console.log(err);
         res.status(500).json({ message: 'server error' })
 
     }

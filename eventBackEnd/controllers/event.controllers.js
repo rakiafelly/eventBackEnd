@@ -3,6 +3,8 @@ const Event = require('../models/event');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const Company = require('../models/company');
+const { events } = require('../models/company');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -12,7 +14,7 @@ const storage = multer.diskStorage({
     filename: function (req, file, cb) {
         const extension = path.extname(file.originalname);
         const newFileName = Date.now() + extension;
-        const link='http://localhost:3000/uploads/'+newFileName;
+        const link = 'http://localhost:3000/uploads/' + newFileName;
         cb(null, newFileName)
     }
 })
@@ -22,7 +24,7 @@ const fileFilter = (req, file, cb) => {
     const extension = path.extname(file.originalname);
     cb(null, allowedFileExtensions.includes(extension));
 }
-exports.imgUpload =multer({
+exports.imgUpload = multer({
     storage: storage,
     fileFilter: fileFilter,
     limits: {
@@ -32,8 +34,8 @@ exports.imgUpload =multer({
 
 exports.getAllEvent = async (req, res, next) => {
     try {
-        const event = await Event.find()
-        res.send(event)
+        const companyFound = await Company.findById(req.user._id).populate('events')  
+        res.send(companyFound.events)
     }
     catch (err) {
         res.status(500).json({ message: 'server error' })
@@ -57,7 +59,8 @@ exports.createEvent = async (req, res, next) => {
         const eventFound = await Event.findOne({ eventName: req.body.eventName });
         if (eventFound == null) {
             req.body.photo = req.body.photo
-            await Event.create(req.body);
+            const eventCreated = await Event.create(req.body);
+            await Company.findByIdAndUpdate(req.user._id, { $push: { events: eventCreated._id } }, { new: true })
             res.json({ message: ' Event created succssefully' });
         }
         else {

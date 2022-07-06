@@ -12,14 +12,14 @@ const passport = require('passport');
 
 exports.registre = async (req, res) => {
   try {
-    const user = await Company.findOne({ email:req.body.email })
+    const user = await Company.findOne({ email: req.body.email })
     if (user != null) {
       res.status(400).send({ message: "email already used" })
     }
     else {
       const salt = bcrypt.genSaltSync(10);
       const hash = bcrypt.hashSync(req.body.password, salt);
-      req.body.password=hash
+      req.body.password = hash
       await Company.create(req.body);
       res.send({ message: 'register succssefully' });
     }
@@ -39,7 +39,7 @@ exports.login = async (req, res) => {
       if (bcrypt.compareSync(req.body.password, user.password)) {
         const token = jwt.sign({
           userId: user._id
-        }, 'secret', { expiresIn: '1 d' });
+        }, 'secret', { expiresIn: '1d' });
         res.send({
           message: 'login successfully', token: token
         })
@@ -154,4 +154,9 @@ exports.resetPassword = async (req, res) => {
     res.status(500).json({ message: 'internal error in server' })
 
   }
+}
+
+exports.logOut =  (req, res) => {
+   req.logout();
+    res.json({ message: 'Logged out!' })
 }
