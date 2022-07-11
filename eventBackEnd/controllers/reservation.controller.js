@@ -6,10 +6,13 @@ const ejs = require('ejs');
 const fs = require('fs');
 var pdf = require("pdf-creator-node");
 const randomString = require('randomstring');
-var htmlToPdf = require('html-to-pdf');
+const Event=require('../models/event');
 
 exports.createReservation = async (req, res, next) => {
   try {
+    const event=await Event.findById(req.params.id)
+    console.log(event.availableTicketNumber);
+    
     const reservation = await Reservation.create(req.body);
     const templatePath = path.resolve('./templates', 'reservation.html');
     const reservationTemplate = fs.readFileSync(templatePath, { encoding: 'utf-8' })
@@ -19,12 +22,12 @@ exports.createReservation = async (req, res, next) => {
       data: {
         users: reservation,
       },
-      // path: path.resolve(`./event-list/${reservation}.pdf`),
+     path: path.resolve(`reservation.pdf`),
       type: "",
     };
     var options = {
-      format: "A3",
-      orientation: "landscape",
+    
+     orientation: "landscape",
       border: "10mm"
     };
     pdf.create(Document, options).then(async (res) => {
@@ -50,12 +53,15 @@ exports.createReservation = async (req, res, next) => {
             content: fs.createReadStream(res.filename)
           },]
       });
+    await Event.findByIdAndUpdate(req.params.id,{'$inc':{availableTicketNumber:-1}},{new:true})
+    })
+    
 
       res.json({ message: 'Reservation created successfully!' })
-    })
   }
   catch (err) {
     res.status(500).json({ message: 'server error' })
 
   }
 }
+
