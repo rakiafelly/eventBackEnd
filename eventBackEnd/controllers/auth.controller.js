@@ -95,7 +95,7 @@ exports.forgetPassword = async (req, res) => {
 
       res.json({ message: 'reset password email is sent' })
     }
-
+  
   }
   catch (err) {
     res.status(500).json({ message: 'internal error in server' })
@@ -156,7 +156,9 @@ exports.resetPassword = async (req, res) => {
   }
 }
 
-exports.logOut =  (req, res) => {
-   req.logout();
-    res.json({ message: 'Logged out!' })
-}
+
+exports.logOut =  function (req, res, next) {
+  req.logout(function(err) {
+   if (err) { return next(err)}
+   res.json({message:'Logged out'})
+ });}

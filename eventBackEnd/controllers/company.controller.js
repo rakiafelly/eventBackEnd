@@ -3,6 +3,7 @@ const Company = require('../models/company');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
+const Event=require('../models/event')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -40,7 +41,7 @@ exports.getAllCompany = async (req, res, next) => {
         res.send(company);
     }
     catch (err) {
-        console.log(err);
+        // console.log(err);
         res.status(500).json({ message: 'server error' })
 
     }
@@ -79,8 +80,6 @@ exports.updateCompany = async (req, res, next) => {
     try {
         const company = await Company.findByIdAndUpdate(req.params.id, req.body)
         res.json({ message: 'updated succssefully' });
-
-
     }
     catch (err) {
         res.status(500).json({ message: 'server error' })
@@ -100,4 +99,28 @@ exports.deleteCompany = async (req, res, next) => {
 
     }
 }
+exports.getEvents = async (req, res) => {
+    try {
+        const events = await Event.find();
+        let response=[]
+        events.forEach(event=>{
+            response.push( { label: event.eventName, value: event._id })
+        })   
+        res.json(response);
+    }
+    catch (err) {
+        res.status(500).json({ message: 'server error' })
+    }
+}
 
+exports.getCompany=async(req,res)=>{
+    try{
+        // const connectedCompany=await Company.findById(req.params.id);
+        res.json(connectedCompany)
+    }
+
+    catch (err) {
+        res.status(500).json({ message: 'server error' })
+
+    }
+}

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors=require('cors');
 const app = express();
+const session=require('express-session');
 const port = 3000;
 const passport=require('passport')
 const dotenv=require('dotenv');
@@ -12,6 +13,10 @@ require('./database/connect')
 require('./passport/passport');
 app.use(express.json())
 app.use(cors());
+app.use(session({
+  secret: process.env.JWT_SECRET,
+  resave: false,
+  saveUninitialized: true,}));
 app.use(passport.initialize());
 app.use(passport.session());
 const authApi=require('./routes/authApi');
